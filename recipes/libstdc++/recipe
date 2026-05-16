@@ -2,7 +2,6 @@
 
 revision=1
 version="$(. "${base_dir}/host-recipes/gcc/recipe" && echo ${version})"
-skip_pkg_check=yes
 
 hostdeps="gcc pkg-config"
 imagedeps="build-essential"
