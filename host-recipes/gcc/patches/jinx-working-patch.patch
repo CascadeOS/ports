@@ -1,0 +1,105 @@
+diff --git gcc-clean/fixincludes/mkfixinc.sh gcc-workdir/fixincludes/mkfixinc.sh
+index 7112f4d..3813420 100755
+--- gcc-clean/fixincludes/mkfixinc.sh
++++ gcc-workdir/fixincludes/mkfixinc.sh
+@@ -19,6 +19,8 @@ case $machine in
+     powerpcle-*-eabisim* | \
+     powerpcle-*-eabi* | \
+     *-*-vxworks7* | \
++    *-cascade* | \
++    *-*-cascade* | \
+     *-musl* )
+ 	#  IF there is no include fixing,
+ 	#  THEN create a no-op fixer and exit
+diff --git gcc-workdir/gcc/config/cascade.h gcc-workdir/gcc/config/cascade.h
+new file mode 100644
+index 0000000..aaec3e7
+--- /dev/null
++++ gcc-workdir/gcc/config/cascade.h
+@@ -0,0 +1,24 @@
++#undef TARGET_CASCADE
++#define TARGET_CASCADE 1
++
++#undef LIB_SPEC
++#define LIB_SPEC "-lc"
++
++#undef LINK_SPEC
++#define LINK_SPEC "%{shared:-shared} %{static:-static} %{!shared: %{!static: %{rdynamic:-export-dynamic}}} %{!dynamic-linker:-dynamic-linker /usr/lib/ld.so}"
++
++#undef STARTFILE_SPEC
++#define STARTFILE_SPEC "%{!shared:crt1.o%s} crti.o%s %{shared:crtbeginS.o%s;:crtbegin.o%s}"
++
++#undef ENDFILE_SPEC
++#define ENDFILE_SPEC "%{shared:crtendS.o%s;:crtend.o%s} crtn.o%s"
++
++#undef TARGET_OS_CPP_BUILTINS
++#define TARGET_OS_CPP_BUILTINS()      \
++  do {                                \
++    builtin_define ("__cascade__");      \
++    builtin_define ("__unix__");      \
++    builtin_assert ("system=cascade");   \
++    builtin_assert ("system=unix");   \
++    builtin_assert ("system=posix");   \
++  } while(0);
+diff --git gcc-clean/gcc/config.gcc gcc-workdir/gcc/config.gcc
+index 087aaa7..8c3ed86 100644
+--- gcc-clean/gcc/config.gcc
++++ gcc-workdir/gcc/config.gcc
+@@ -1041,6 +1041,14 @@ case ${target} in
+ *-*-rdos*)
+   use_gcc_stdint=wrap
+   ;;
++*-*-cascade*)
++  extra_options="$extra_options gnu-user.opt"
++  gas=yes
++  gnu_ld=yes
++  default_use_cxa_atexit=yes
++  use_gcc_stdint=provide
++  thread_file='posix'
++  ;;
+ *-*-solaris2*)
+   # i?86-*-solaris2* needs to insert headers between cpu default and
+   # Solaris 2 specific ones.
+@@ -1953,6 +1961,9 @@ x86_64-*-darwin*)
+ 	tmake_file="${tmake_file} ${cpu_type}/t-darwin64-biarch t-slibgcc"
+ 	tm_file="${cpu_type}/darwin64-biarch.h ${tm_file} "
+ 	;;
++x86_64-*-cascade*)
++	tm_file="${tm_file} i386/unix.h i386/att.h elfos.h glibc-stdint.h i386/i386elf.h i386/x86-64.h gnu-user.h cascade.h"
++	;;
+ i[34567]86-*-elfiamcu)
+ 	tm_file="${tm_file} i386/unix.h i386/att.h elfos.h newlib-stdint.h i386/iamcu.h"
+ 	;;
+diff --git gcc-clean/libgcc/config.host gcc-workdir/libgcc/config.host
+index 6a88ee5..a9f0197 100644
+--- gcc-clean/libgcc/config.host
++++ gcc-workdir/libgcc/config.host
+@@ -793,6 +793,10 @@ i[34567]86-*-openbsd*)
+ 	;;
+ x86_64-*-openbsd*)
+ 	;;
++x86_64-*-cascade*)
++	extra_parts="$extra_parts crti.o crtbegin.o crtend.o crtn.o crtbeginS.o crtendS.o crtprec32.o crtprec64.o crtprec80.o crtfastmath.o"
++	tmake_file="$tmake_file t-crtstuff-pic t-libgcc-pic i386/t-crtpc t-crtfm i386/t-crtstuff t-dfprules"
++	;;
+ i[34567]86-*-linux*)
+ 	extra_parts="$extra_parts crtprec32.o crtprec64.o crtprec80.o crtfastmath.o"
+ 	tmake_file="${tmake_file} i386/t-crtpc t-crtfm i386/t-crtstuff t-dfprules"
+diff --git gcc-clean/libstdc++-v3/crossconfig.m4 gcc-workdir/libstdc++-v3/crossconfig.m4
+index b3269cb..ec6f45c 100644
+--- gcc-clean/libstdc++-v3/crossconfig.m4
++++ gcc-workdir/libstdc++-v3/crossconfig.m4
+@@ -67,6 +67,13 @@ case "${host}" in
+     AC_DEFINE(HAVE_USELOCALE)
+     ;;
+
++  *-cascade*)
++    GLIBCXX_CHECK_COMPILER_FEATURES
++    GLIBCXX_CHECK_LINKER_FEATURES
++    GLIBCXX_CHECK_MATH_SUPPORT
++    GLIBCXX_CHECK_STDLIB_SUPPORT
++    ;;
++
+   *-darwin*)
+     # Darwin versions vary, but the linker should work in a cross environment,
+     # so we just check for all the features here.

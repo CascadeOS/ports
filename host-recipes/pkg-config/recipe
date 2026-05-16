@@ -1,0 +1,35 @@
+#!/bin/sh
+
+revision=1
+version=2.5.1
+tarball_url="https://distfiles.ariadne.space/pkgconf/pkgconf-${version}.tar.xz"
+tarball_sha256="cd05c9589b9f86ecf044c10a2269822bc9eb001eced2582cfffd658b0a50c243"
+repology_id=pkgconf
+
+imagedeps="build-essential"
+
+configure() {
+        CFLAGS="$HOST_CFLAGS" \
+        CXXFLAGS="$HOST_CXXFLAGS" \
+    "${source_dir}"/configure \
+        --prefix="${prefix}"
+}
+
+build() {
+    make -j${parallelism}
+}
+
+package() {
+    DESTDIR="${dest_dir}" make install
+    mkdir -p ${dest_dir}${prefix}/share/pkgconfig/personality.d
+
+    cat >${dest_dir}${prefix}/share/pkgconfig/personality.d/${OS_TRIPLET}.personality <<EOF
+Triplet: ${OS_TRIPLET}
+SysrootDir: ${sysroot}
+DefaultSearchPaths: ${sysroot}/usr/lib/pkgconfig:${sysroot}/usr/share/pkgconfig
+SystemIncludePaths: ${sysroot}/usr/include
+SystemLibraryPaths: ${sysroot}/usr/lib
+EOF
+
+    ln -s pkgconf ${dest_dir}${prefix}/bin/${OS_TRIPLET}-pkg-config
+}

@@ -1,0 +1,17 @@
+// SPDX-License-Identifier: CC0-1.0
+// SPDX-FileCopyrightText: CascadeOS Contributors
+{
+    "files.associations": {
+        "**/host-recipes/**/recipe": "shellscript",
+        "**/host-recipes/**/patches/*": "diff",
+        "**/recipes/**/recipe": "shellscript",
+        "**/recipes/**/patches/*": "diff",
+        "Jinxfile": "shellscript",
+    },
+    "files.trimTrailingWhitespace": true,
+    "[shellscript]": {
+        "editor.tabSize": 4,
+        "editor.insertSpaces": true,
+        "editor.detectIndentation": false
+    },
+}

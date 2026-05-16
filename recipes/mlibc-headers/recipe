@@ -1,0 +1,16 @@
+#!/bin/sh
+
+revision=1
+from_source=mlibc
+
+configure() {
+    meson_configure -Dheaders_only=true
+}
+
+build() {
+    meson compile -j${parallelism}
+}
+
+package() {
+    DESTDIR="${dest_dir}" meson install
+}

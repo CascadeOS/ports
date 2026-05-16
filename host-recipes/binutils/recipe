@@ -1,0 +1,32 @@
+#!/bin/sh
+
+revision=1
+version=2.46.0
+tarball_url="https://ftpmirror.gnu.org/gnu/binutils/binutils-${version}.tar.xz"
+tarball_sha256="d75a94f4d73e7a4086f7513e67e439e8fcdcbb726ffe63f4661744e6256b2cf2"
+
+source_hostdeps="autoconf automake"
+imagedeps="build-essential"
+
+prepare() {
+    (cd ld && automake)
+}
+
+configure() {
+        CFLAGS="$HOST_CFLAGS" \
+        CXXFLAGS="$HOST_CXXFLAGS" \
+    ${source_dir}/configure \
+        --target=${OS_TRIPLET} \
+        --prefix=${prefix} \
+        --with-sysroot=${sysroot} \
+        --disable-werror \
+        --enable-default-execstack=no
+}
+
+build() {
+    make -j${parallelism}
+}
+
+package() {
+    DESTDIR="${dest_dir}" make install
+}

@@ -1,0 +1,14 @@
+[host_machine]
+system = 'cascade'
+cpu_family = 'x86_64'
+cpu = 'x86_64'
+endian = 'little'
+
+[binaries]
+c = 'x86_64-cascade-gcc'
+cpp = 'x86_64-cascade-g++'
+ar = 'x86_64-cascade-ar'
+nm = 'x86_64-cascade-nm'
+strip = 'x86_64-cascade-strip'
+ld = 'x86_64-cascade-ld'
+pkg-config = 'x86_64-cascade-pkg-config'

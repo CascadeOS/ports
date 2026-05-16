@@ -1,0 +1,47 @@
+#!/bin/sh
+
+revision=1
+version=15.2.0
+tarball_url="https://ftpmirror.gnu.org/gnu/gcc/gcc-${version}/gcc-${version}.tar.xz"
+tarball_sha256="438fd996826b0c82485a29da03a72d71d6e3541a83ec702df4271f6fe025d24e"
+clean_workdirs=no
+
+imagedeps="build-essential libmpfr-dev libmpc-dev libgmp-dev"
+source_hostdeps="autoconf automake"
+hostdeps="pkg-config"
+hostrundeps="binutils"
+deps="mlibc-headers"
+
+prepare() {
+    autotools_recursive_regen
+    (cd libstdc++-v3 && autoconf)
+}
+
+configure() {
+    cp -rp "${source_dir}"/. ./
+    mkdir -p build && cd build
+
+        CFLAGS="$HOST_CFLAGS" \
+        CXXFLAGS="$HOST_CXXFLAGS" \
+        CFLAGS_FOR_TARGET="$TARGET_CFLAGS" \
+        CXXFLAGS_FOR_TARGET="$TARGET_CXXFLAGS" \
+    ${source_dir}/configure \
+        --prefix="${prefix}" \
+        --target=${OS_TRIPLET} \
+        --with-sysroot="${sysroot}" \
+        --enable-languages=c,c++ \
+        --enable-threads=posix \
+        --disable-multilib \
+        --enable-shared \
+        --enable-host-shared
+}
+
+build() {
+    cd build
+    make all-gcc -j${parallelism}
+}
+
+package() {
+    cd build
+    DESTDIR="${dest_dir}" make install-gcc
+}

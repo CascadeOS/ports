@@ -1,0 +1,74 @@
+diff --git binutils-clean/bfd/config.bfd binutils-workdir/bfd/config.bfd
+index 4dde532..ec15201 100644
+--- binutils-clean/bfd/config.bfd
++++ binutils-workdir/bfd/config.bfd
+@@ -737,6 +737,10 @@ case "${targ}" in
+     targ_selvecs="i386_elf32_vec iamcu_elf32_vec x86_64_elf32_vec"
+     want64=true
+     ;;
++  x86_64-*-cascade*)
++    targ_defvec=x86_64_elf64_vec
++    want64=true
++    ;;
+ #endif
+   i[3-7]86-*-lynxos*)
+     targ_defvec=i386_elf32_vec
+diff --git binutils-clean/config.sub binutils-workdir/config.sub
+index 3d35cde..89843f8 100755
+--- binutils-clean/config.sub
++++ binutils-workdir/config.sub
+@@ -1987,6 +1987,7 @@ case $os in
+ 	| bme* \
+ 	| bosx* \
+ 	| bsd* \
++	| cascade* \
+ 	| cegcc* \
+ 	| chorusos* \
+ 	| chorusrdb* \
+diff --git binutils-clean/gas/configure.tgt binutils-workdir/gas/configure.tgt
+index f0ea55d..7be70fe 100644
+--- binutils-clean/gas/configure.tgt
++++ binutils-workdir/gas/configure.tgt
+@@ -226,6 +226,7 @@ case ${generic_target} in
+ 
+   i386-*-beospe*)			fmt=coff em=pe ;;
+   i386-*-beos*)				fmt=elf ;;
++  i386-*-cascade*)		fmt=elf ;;
+   i386-*-elfiamcu)			fmt=elf arch=iamcu ;;
+   i386-*-elf*)				fmt=elf ;;
+   i386-*-fuchsia*)			fmt=elf ;;
+diff --git binutils-clean/ld/Makefile.am binutils-workdir/ld/Makefile.am
+index c219662..765405e 100644
+--- binutils-clean/ld/Makefile.am
++++ binutils-workdir/ld/Makefile.am
+@@ -455,6 +455,7 @@ ALL_64_EMULATION_SOURCES = \
+ 	eelf64tilegx_be.c \
+ 	eelf_mipsel_haiku.c \
+ 	eelf_x86_64.c \
++	eelf_x86_64_cascade.c \
+ 	eelf_x86_64_fbsd.c \
+ 	eelf_x86_64_haiku.c \
+ 	eelf_x86_64_sol2.c \
+diff --git binutils-clean/ld/configure.tgt binutils-workdir/ld/configure.tgt
+index 3e15891..e68c4f5 100644
+--- binutils-clean/ld/configure.tgt
++++ binutils-workdir/ld/configure.tgt
+@@ -949,6 +949,8 @@ visium-*-elf)		targ_emul=elf32visium
+ 			;;
+ x86_64-*-rdos*)		targ_emul=elf64rdos
+ 			;;
++x86_64-*-cascade*)	targ_emul=elf_x86_64_cascade
++			;;
+ x86_64-*-haiku*)	targ_emul=elf_x86_64_haiku
+ 			targ_extra_emuls="elf_x86_64 elf_i386_haiku"
+ 			;;
+diff --git binutils-workdir/ld/emulparams/elf_x86_64_cascade.sh binutils-workdir/ld/emulparams/elf_x86_64_cascade.sh
+new file mode 100644
+index 0000000..ebf31e6
+--- /dev/null
++++ binutils-workdir/ld/emulparams/elf_x86_64_cascade.sh
+@@ -0,0 +1,3 @@
++source ${srcdir}/emulparams/elf_x86_64.sh
++GENERATE_SHLIB_SCRIPT=yes
++GENERATE_PIE_SCRIPT=yes
+\ No newline at end of file
