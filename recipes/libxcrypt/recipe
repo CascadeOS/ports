@@ -1,0 +1,30 @@
+#!/bin/sh
+
+revision=1
+version=4.5.2
+tarball_url="https://github.com/besser82/libxcrypt/releases/download/v${version}/libxcrypt-${version}.tar.xz"
+tarball_sha256="71513a31c01a428bccd5367a32fd95f115d6dac50fb5b60c779d5c7942aec071"
+
+hostdeps="gcc pkg-config"
+imagedeps="python3-passlib"
+deps="mlibc libgcc libstdc++"
+
+prepare() {
+    autotools_recursive_regen
+}
+
+configure() {
+    autotools_configure \
+        CFLAGS="${TARGET_CFLAGS} -Wno-error=discarded-qualifiers" \
+        --enable-hashes=strong,glibc \
+        --enable-obsolete-api=no \
+        --disable-failure-tokens
+}
+
+build() {
+    make -j${parallelism}
+}
+
+package() {
+    DESTDIR="${dest_dir}" make install
+}
