@@ -18,7 +18,6 @@ prepare() {
 }
 
 configure() {
-    cp -rp "${source_dir}"/. ./
     mkdir -p build && cd build
 
         CFLAGS="$HOST_CFLAGS" \
@@ -38,10 +37,10 @@ configure() {
 
 build() {
     cd build
-    make all-gcc -j${parallelism}
+    make all-gcc all-target-libgcc -j${parallelism}
 }
 
 package() {
     cd build
-    DESTDIR="${dest_dir}" make install-gcc
+    DESTDIR="${dest_dir}" make install-gcc install-target-libgcc
 }
