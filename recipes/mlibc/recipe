@@ -7,7 +7,6 @@ commit="ee6650a2d009acd9792b8e6589ae46fffea76745"
 source_allow_network=yes
 
 hostdeps="binutils gcc pkg-config"
-imagedeps="libmpc-dev"
 deps="mlibc-headers libgcc"
 
 prepare() {
