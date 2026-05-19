@@ -3,7 +3,7 @@
 revision=1
 version=8.3
 tarball_url="https://ftp.gnu.org/gnu/readline/readline-${version}.tar.gz"
-tarball_sha256="fe5383204467828cd495ee8d1d3c037a7eba1389c22bc6a041f627976f9061cc"
+tarball_blake2b="45d6fe7e34c56d309102a94aa776a7f5284201e844450e14ff818df9fa84a72154bdca70f11828c94954b080cbbe4666fa0b00ffa8460118ec8f3ea551b73dad"
 
 hostdeps="gcc pkg-config"
 deps="core-libs ncurses"

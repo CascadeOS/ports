@@ -3,7 +3,7 @@
 revision=1
 version=1.19
 tarball_url="https://ftp.gnu.org/pub/gnu/libiconv/libiconv-${version}.tar.gz"
-tarball_sha256="88dd96a8c0464eca144fc791ae60cd31cd8ee78321e67397e25fc095c4a19aa6"
+tarball_blake2b="a77d5190bfed76627ac5abf24b90a19f3f1c460f2fe4e5002bb4799d789236c268dff0693aa9836ab12df76b1381084dbe2b78cabe8221eb97f54e14a210a8e2"
 
 hostdeps="gcc pkg-config"
 deps="mlibc libgcc libstdc++"

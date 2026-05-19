@@ -3,7 +3,7 @@
 revision=1
 version=1.0
 tarball_url="https://ftpmirror.gnu.org/gnu/gettext/gettext-${version}.tar.gz"
-tarball_sha256="85d99b79c981a404874c02e0342176cf75c7698e2b51fe41031cf6526d974f1a"
+tarball_blake2b="1e4b78979f780878472142f1c0baba468d60f4b5605eeb5db5c092901183e3128c79df94c2041de870920f079b4bf38e6dae056b731e4b2b4c5cc343940962d8"
 
 hostdeps="gcc pkg-config"
 deps="core-libs"

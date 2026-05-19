@@ -3,7 +3,7 @@
 revision=1
 version=1.15.1
 tarball_url="https://ftpmirror.gnu.org/gnu/automake/automake-${version}.tar.gz"
-tarball_sha256="988e32527abe052307d21c8ca000aa238b914df363a617e38f4fb89f5abf6260"
+tarball_blake2b="b541591caf13994473d4ea4fa3ebb1116cfa6924553132be191867a7bdb131d2cfc6a31f448f9c0210476bf54a139812ee4368c3ab2b00c3f4d1c5f22e005b49"
 
 hostdeps="autoconf"
 imagedeps="build-essential"

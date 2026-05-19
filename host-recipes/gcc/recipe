@@ -3,7 +3,7 @@
 revision=1
 version=15.2.0
 tarball_url="https://ftpmirror.gnu.org/gnu/gcc/gcc-${version}/gcc-${version}.tar.xz"
-tarball_sha256="438fd996826b0c82485a29da03a72d71d6e3541a83ec702df4271f6fe025d24e"
+tarball_blake2b="e270320978ca690e6e8f5ef06414dc13caf561f16403a3783c76fbf3dcee57e755a2d5bba922bf7fcae0bb6120443755d819b003791ae823d54589dd799804de"
 clean_workdirs=no
 
 imagedeps="build-essential libmpfr-dev libgmp-dev"
