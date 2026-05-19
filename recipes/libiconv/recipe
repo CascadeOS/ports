@@ -1,0 +1,26 @@
+#!/bin/sh
+
+revision=1
+version=1.19
+tarball_url="https://ftp.gnu.org/pub/gnu/libiconv/libiconv-${version}.tar.gz"
+tarball_sha256="88dd96a8c0464eca144fc791ae60cd31cd8ee78321e67397e25fc095c4a19aa6"
+
+hostdeps="gcc pkg-config"
+deps="mlibc libgcc libstdc++"
+
+prepare() {
+    autotools_recursive_regen
+}
+
+configure() {
+    autotools_configure \
+        --enable-extra-encodings
+}
+
+build() {
+    make -j${parallelism}
+}
+
+package() {
+    make install DESTDIR="${dest_dir}"
+}
