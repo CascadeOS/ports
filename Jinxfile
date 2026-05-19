@@ -133,7 +133,7 @@ cmake_configure_noflags() {
     fi
 
     cmake "${cmake_source_dir}" \
-        -DCMAKE_TOOLCHAIN_FILE="${base_dir}/support/cmake/CMakeToolchain-${JINX_ARCH}.cmake" \
+        -DCMAKE_TOOLCHAIN_FILE="${base_dir}/support/cmake/CMakeToolchain_${JINX_ARCH}.cmake" \
         -DCMAKE_INSTALL_PREFIX=${prefix} \
         -DCMAKE_INSTALL_SYSCONFDIR=/etc \
         -DCMAKE_INSTALL_LOCALSTATEDIR=/var \
