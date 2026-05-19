@@ -1,0 +1,38 @@
+#!/bin/sh
+
+revision=1
+version=1.0.8
+tarball_url="https://sourceware.org/ftp/bzip2/bzip2-${version}.tar.gz"
+tarball_sha256="ab5a03176ee106d3f0fa90e381da478ddae405918153cca248e682cd0c4a2269"
+
+hostdeps="gcc pkg-config"
+deps="core-libs"
+
+build() {
+    cp -rT "${source_dir}" .
+
+    make libbz2.a bzip2 bzip2recover \
+        CC="${OS_TRIPLET}-gcc" \
+        AR="${OS_TRIPLET}-ar" \
+        RANLIB="${OS_TRIPLET}-ranlib" \
+        CFLAGS="${TARGET_CFLAGS} -Wall -Winline -D_FILE_OFFSET_BITS=64" \
+        -j${parallelism}
+}
+
+package() {
+    make install PREFIX="${dest_dir}/usr"
+
+    mkdir -p "${dest_dir}${prefix}/lib/pkgconfig"
+    cat >"${dest_dir}${prefix}/lib/pkgconfig/bzip2.pc" <<EOF
+prefix=${prefix}
+exec_prefix=\${prefix}
+libdir=\${exec_prefix}/lib
+includedir=\${prefix}/include
+
+Name: bzip2
+Description: A file compression library
+Version: ${version}
+Libs: -L\${libdir} -lbz2
+Cflags: -I\${includedir}
+EOF
+}
