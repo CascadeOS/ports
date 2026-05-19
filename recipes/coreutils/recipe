@@ -1,0 +1,33 @@
+#!/bin/sh
+
+revision=1
+version=9.11
+tarball_url="https://ftp.gnu.org/gnu/coreutils/coreutils-${version}.tar.xz"
+tarball_blake2b="bea602b60824724bddd53ef7a232292ddb99f9b940ebedc30bd42f9b2f3d4763e7ea6c1d76c556413261b8c0bba7b1adbb4a5f6619ff3c9bdbe80d05a12ebd86"
+
+hostdeps="gcc pkg-config"
+deps="core-libs"
+
+prepare() {
+    autotools_recursive_regen
+
+    # src/fs.h and src/fs-is-local.h are pre-generated in the tarball from
+    # src/stat.c by a maintainer rule. Our patch updates stat.c, so refresh
+    # their mtimes to keep the maintainer rule (which targets the read-only
+    # source dir) from firing during build.
+    touch src/fs.h src/fs-is-local.h
+}
+
+configure() {
+    gl_cv_host_operating_system="Cascade" \
+    autotools_configure \
+        --enable-no-install-program="runcon,chroot,stdbuf"
+}
+
+build() {
+    make -j${parallelism}
+}
+
+package() {
+    make install DESTDIR="${dest_dir}"
+}
