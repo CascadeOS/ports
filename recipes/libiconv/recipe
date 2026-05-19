@@ -23,4 +23,18 @@ build() {
 
 package() {
     make install DESTDIR="${dest_dir}"
+
+    mkdir -p "${dest_dir}${prefix}/lib/pkgconfig"
+    cat >"${dest_dir}${prefix}/lib/pkgconfig/libiconv.pc" <<EOF
+prefix=${prefix}
+exec_prefix=\${prefix}
+libdir=\${exec_prefix}/lib
+includedir=\${prefix}/include
+
+Name: libiconv
+Description: International text conversion library
+Version: ${version}
+Libs: -L\${libdir} -liconv
+Cflags: -I\${includedir}
+EOF
 }
