@@ -17,4 +17,19 @@ build() {
 
 package() {
     make -C intl install DESTDIR="${dest_dir}"
+
+    mkdir -p "${dest_dir}${prefix}/lib/pkgconfig"
+    cat >"${dest_dir}${prefix}/lib/pkgconfig/libintl.pc" <<EOF
+prefix=${prefix}
+exec_prefix=\${prefix}
+libdir=\${exec_prefix}/lib
+includedir=\${prefix}/include
+
+Name: libintl
+Description: GNU internationalization library
+Version: ${version}
+Libs: -L\${libdir} -lintl
+Libs.private: -liconv
+Cflags: -I\${includedir}
+EOF
 }
