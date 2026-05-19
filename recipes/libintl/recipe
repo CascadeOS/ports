@@ -1,0 +1,20 @@
+#!/bin/sh
+
+revision=1
+from_source=gettext
+
+hostdeps="gcc pkg-config"
+deps="mlibc libgcc libstdc++ libiconv"
+
+configure() {
+    configure_script_path="${source_dir}/gettext-runtime/configure" \
+    autotools_configure
+}
+
+build() {
+    make -C intl -j${parallelism}
+}
+
+package() {
+    make -C intl install DESTDIR="${dest_dir}"
+}
