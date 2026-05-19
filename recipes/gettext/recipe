@@ -1,0 +1,29 @@
+#!/bin/sh
+
+revision=1
+version=1.0
+tarball_url="https://ftpmirror.gnu.org/gnu/gettext/gettext-${version}.tar.gz"
+tarball_sha256="85d99b79c981a404874c02e0342176cf75c7698e2b51fe41031cf6526d974f1a"
+
+hostdeps="gcc pkg-config"
+deps="core-libs"
+
+prepare() {
+    autotools_recursive_regen
+}
+
+configure() {
+    autotools_configure
+}
+
+build() {
+    make -j${parallelism}
+}
+
+package() {
+    make install DESTDIR="${dest_dir}"
+
+    rm -fv "${dest_dir}${prefix}"/lib/libintl* \
+           "${dest_dir}${prefix}"/lib/preloadable_libintl* \
+           "${dest_dir}${prefix}"/include/libintl.h
+}
