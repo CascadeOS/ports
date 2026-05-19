@@ -1,0 +1,26 @@
+#!/bin/sh
+
+revision=1
+version=8.3
+tarball_url="https://ftp.gnu.org/gnu/readline/readline-${version}.tar.gz"
+tarball_sha256="fe5383204467828cd495ee8d1d3c037a7eba1389c22bc6a041f627976f9061cc"
+
+hostdeps="gcc pkg-config"
+deps="core-libs ncurses"
+
+prepare() {
+    autotools_recursive_regen
+}
+
+configure() {
+    autotools_configure \
+        --with-curses
+}
+
+build() {
+    make -j${parallelism}
+}
+
+package() {
+    make install DESTDIR="${dest_dir}"
+}
