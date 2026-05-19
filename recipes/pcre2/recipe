@@ -1,0 +1,36 @@
+#!/bin/sh
+
+revision=1
+version=10.47
+git_url="https://github.com/PCRE2Project/pcre2.git"
+commit="f454e231fe5006dd7ff8f4693fd2b8eb94333429"
+
+source_hostdeps="autoconf automake"
+source_imagedeps="libtool"
+source_allow_network=yes
+hostdeps="gcc pkg-config"
+deps="core-libs bzip2 zlib"
+
+prepare() {
+    git submodule update --init --recursive
+    ./autogen.sh
+    autotools_recursive_regen
+}
+
+configure() {
+    autotools_configure \
+        --enable-pcre2-8 \
+        --enable-pcre2-16 \
+        --enable-pcre2-32 \
+        --enable-jit \
+        --enable-pcre2grep-libz \
+        --enable-pcre2grep-libbz2
+}
+
+build() {
+    make -j${parallelism}
+}
+
+package() {
+    make install DESTDIR="${dest_dir}"
+}
