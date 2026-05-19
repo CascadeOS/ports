@@ -1,0 +1,42 @@
+#!/bin/sh
+
+revision=1
+version=5.3
+tarball_url="https://ftp.gnu.org/gnu/bash/bash-${version}.tar.gz"
+tarball_sha256="0d5cd86965f869a26cf64f4b71be7b96f90a3ba8b3d74e27e8e9d9d5550f31ba"
+
+hostdeps="gcc pkg-config"
+imagedeps="build-essential"
+deps="core-libs ncurses readline"
+
+prepare() {
+    autotools_recursive_regen
+}
+
+configure() {
+    bash_cv_func_sigsetjmp=missing \
+    autotools_configure \
+        LDFLAGS="-Wl,--allow-multiple-definition" \
+        CFLAGS="$TARGET_CFLAGS \
+            -DDEFAULT_PATH_VALUE='\"/usr/local/sbin:/usr/local/bin:/usr/bin\"' \
+            -DSTANDARD_UTILS_PATH='\"/usr/bin\"' \
+            -DSYS_BASHRC='\"/etc/bash.bashrc\"' \
+            -DSYS_BASH_LOGOUT='\"/etc/bash.bash_logout\"' \
+            -DNON_INTERACTIVE_LOGIN_SHELLS \
+        " \
+        --with-curses \
+        --enable-readline \
+        --without-bash-malloc \
+        --with-installed-readline
+}
+
+build() {
+    make -j${parallelism}
+}
+
+package() {
+    make install DESTDIR="${dest_dir}"
+
+    ln -sv bash "${dest_dir}${prefix}/bin/sh"
+    ln -sv bash "${dest_dir}${prefix}/bin/rbash"
+}
