@@ -1,0 +1,43 @@
+#!/bin/sh
+
+revision=1
+version=6.5
+tarball_url="https://github.com/ThomasDickey/ncurses-snapshots/archive/refs/tags/v6_5.tar.gz"
+tarball_sha256="1600526b279b0acf42432fe31f6dfa3824a4da4262168bf8b3637660ff8c07c7"
+
+hostdeps="gcc pkg-config"
+imagedeps="build-essential"
+deps="core-libs"
+
+prepare() {
+    autotools_recursive_regen
+}
+
+configure() {
+    autotools_configure \
+        CPPFLAGS="-D_GNU_SOURCE" \
+        --with-build-cc=gcc \
+        --enable-widec \
+        --enable-pc-files \
+        --enable-overwrite \
+        --with-pkg-config-libdir=${prefix}/lib/pkgconfig \
+        --without-ada \
+        --without-tests \
+        --without-debug
+}
+
+build() {
+    make -j${parallelism}
+}
+
+package() {
+    make install DESTDIR="${dest_dir}"
+
+    for lib in ncurses form menu panel; do
+        ln -sv lib${lib}w.a "${dest_dir}${prefix}/lib/lib${lib}.a"
+        ln -sv ${lib}w.pc "${dest_dir}${prefix}/lib/pkgconfig/${lib}.pc"
+    done
+
+    ln -sv libncursesw.a "${dest_dir}${prefix}/lib/libcurses.a"
+    ln -sv ncursesw.pc "${dest_dir}${prefix}/lib/pkgconfig/curses.pc"
+}
