@@ -1,0 +1,14 @@
+#!/bin/sh
+
+revision=1
+version=d33711241b46ecb8f2ad33927fcefdcb3ac0162e
+tarball_url="https://github.com/osdev0/freestnd-c-hdrs/archive/${version}.tar.gz"
+tarball_blake2b="cef19d424f9d931db0cd4117c0cdea150e1c75fde5fa16748f36db7d80e9607fb8583e08c10f08b8e1fa02487f061db1f3f6dda974954978601cd926175242e7"
+
+build() {
+	cp -rp "${source_dir}"/. ./
+}
+
+package() {
+    make install DESTDIR="${dest_dir}" PREFIX="${prefix}"
+}
