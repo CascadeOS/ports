@@ -7,7 +7,7 @@ commit="0cd1f55cc4bf53a2ad321d5df43e292f9da2efdd"
 source_allow_network=yes
 
 hostdeps="binutils gcc pkg-config"
-builddeps="freestnd-c-hdrs freestnd-cxx-hdrs"
+builddeps="freestnd-c-hdrs freestnd-cxx-hdrs libsmarter"
 deps="mlibc-headers libgcc"
 
 prepare() {
