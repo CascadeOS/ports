@@ -9,5 +9,5 @@ deps="mlibc-headers"
 
 package() {
     cd "${build_dir}"/host-builds/gcc/build
-    DESTDIR="${dest_dir}" make install-target-libgcc
+    make install-target-libgcc DESTDIR="${dest_dir}"
 }

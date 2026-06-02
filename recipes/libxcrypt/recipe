@@ -26,5 +26,5 @@ build() {
 }
 
 package() {
-    DESTDIR="${dest_dir}" make install
+    make install DESTDIR="${dest_dir}"
 }

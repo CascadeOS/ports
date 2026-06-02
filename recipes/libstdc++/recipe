@@ -19,7 +19,7 @@ package() {
     rm -rf tmp_libstdc++_dir
     mkdir tmp_libstdc++_dir
 
-    DESTDIR="$(realpath tmp_libstdc++_dir)" make install-target-libstdc++-v3
+    make install-target-libstdc++-v3 DESTDIR="$(realpath tmp_libstdc++_dir)"
 
     # For some reason this also installs libgcc even though it shouldn't...
     # Remove it.
