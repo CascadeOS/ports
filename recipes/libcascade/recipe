@@ -1,0 +1,20 @@
+#!/bin/sh
+
+revision=1
+version=0.0.1
+git_url="https://github.com/CascadeOS/c-libcascade.git"
+commit="f14b5e1cb1aa8e66e923ef9afb1854f121d91176"
+
+hostdeps="binutils gcc pkg-config"
+
+configure() {
+    meson_configure
+}
+
+build() {
+    meson compile -j${parallelism}
+}
+
+package() {
+    DESTDIR="${dest_dir}" meson install
+}

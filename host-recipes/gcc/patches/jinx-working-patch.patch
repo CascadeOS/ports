@@ -13,7 +13,7 @@ index 7112f4d..3813420 100755
  	#  THEN create a no-op fixer and exit
 diff --git gcc-workdir/gcc/config/cascade.h gcc-workdir/gcc/config/cascade.h
 new file mode 100644
-index 0000000..aaec3e7
+index 0000000..b2d1d06
 --- /dev/null
 +++ gcc-workdir/gcc/config/cascade.h
 @@ -0,0 +1,24 @@
@@ -21,7 +21,7 @@ index 0000000..aaec3e7
 +#define TARGET_CASCADE 1
 +
 +#undef LIB_SPEC
-+#define LIB_SPEC "-lc"
++#define LIB_SPEC "-lc -lcascade"
 +
 +#undef LINK_SPEC
 +#define LINK_SPEC "%{shared:-shared} %{static:-static} %{!shared: %{!static: %{rdynamic:-export-dynamic}}} %{!dynamic-linker:-dynamic-linker /usr/lib/ld.so}"

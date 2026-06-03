@@ -3,4 +3,4 @@
 version=0.0
 revision=1
 
-deps="mlibc libgcc libstdc++ libxcrypt libiconv libintl"
+deps="mlibc libcascade libgcc libstdc++ libxcrypt libiconv libintl"
