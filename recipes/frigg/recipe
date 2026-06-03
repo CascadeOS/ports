@@ -6,9 +6,7 @@ tarball_url="https://github.com/managarm/frigg/archive/${version}.tar.gz"
 tarball_blake2b="0afd454fa50850c7ff0fca18b4f3aa18f79c27c72cc80684575b5a6dbbb245e10e92ace70dfddb6ec46f1ff9c0b5b740ab8429c15dd0e2b5aeeae1f45a6626e8"
 
 configure() {
-    # install headers into a subdir rather than /usr/include as pkgconf strips /usr/include as a redundant system include path but
-    # consumers (e.g. mlibc) compile with -nostdinc, which would leave the header unreachable.
-    meson_configure -Dbuild_tests=disabled --includedir=include/frigg
+    meson_configure -Dbuild_tests=disabled
 }
 
 package() {

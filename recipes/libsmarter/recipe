@@ -6,9 +6,7 @@ tarball_url="https://github.com/managarm/libsmarter/archive/${version}.tar.gz"
 tarball_blake2b="81b576c81f3df501e6f3bfaa1d958400f65e99c922e32948c1e3469a40dc86ec9afddddf2104a9857f2d26eda81f015a32928d6a6eaacf8ab99553c73bed3f72"
 
 configure() {
-    # install headers into a subdir rather than /usr/include as pkgconf strips /usr/include as a redundant system include path but
-    # consumers (e.g. mlibc) compile with -nostdinc, which would leave the header unreachable.
-    meson_configure --includedir=include/libsmarter
+    meson_configure
 }
 
 package() {
