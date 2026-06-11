@@ -1,0 +1,20 @@
+#!/bin/sh
+
+revision=2
+version=1
+source_dir="recipes/hello_world/src"
+
+hostdeps="binutils gcc pkg-config"
+deps="core-libs"
+
+configure() {
+    meson_configure
+}
+
+build() {
+    meson compile -j${parallelism}
+}
+
+package() {
+    DESTDIR="${dest_dir}" meson install
+}
