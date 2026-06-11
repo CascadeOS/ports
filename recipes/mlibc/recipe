@@ -3,7 +3,7 @@
 revision=1
 version=6.3.1
 git_url="https://github.com/CascadeOS/mlibc.git"
-commit="a455bff9a67b17123a3105ab56448249bf29803e"
+commit="0737e3156f74d6ca99e6b398a69ddb4ec6e7f870"
 
 hostdeps="binutils gcc pkg-config"
 builddeps="freestnd-c-hdrs freestnd-cxx-hdrs frigg libsmarter"

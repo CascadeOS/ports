@@ -1,9 +1,9 @@
 #!/bin/sh
 
 revision=1
-version=0.0.1
+version=0.0.2
 git_url="https://github.com/CascadeOS/c-libcascade.git"
-commit="f14b5e1cb1aa8e66e923ef9afb1854f121d91176"
+commit="7d64c23b9d365475f7f14c5bf06fa75e53deab3b"
 
 hostdeps="binutils gcc pkg-config"
 
