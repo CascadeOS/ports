@@ -1,9 +1,9 @@
 #!/bin/sh
 
 revision=1
-version=6.3.1
+version=455862c27d4ace91765080c705f766a9d7a3966f
 git_url="https://github.com/CascadeOS/mlibc.git"
-commit="0737e3156f74d6ca99e6b398a69ddb4ec6e7f870"
+commit="$version"
 
 hostdeps="binutils gcc pkg-config"
 builddeps="freestnd-c-hdrs freestnd-cxx-hdrs frigg libsmarter"
