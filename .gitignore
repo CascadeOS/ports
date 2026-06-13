@@ -6,3 +6,4 @@ build/
 host-sources/
 sources/
 recipes/libcascade/src
+recipes/mlibc/src
