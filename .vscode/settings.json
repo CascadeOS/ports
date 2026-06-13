@@ -2,10 +2,10 @@
 // SPDX-FileCopyrightText: CascadeOS Contributors
 {
     "files.associations": {
-        "**/host-recipes/**/recipe": "shellscript",
-        "**/host-recipes/**/patches/*": "diff",
-        "**/recipes/**/recipe": "shellscript",
-        "**/recipes/**/patches/*": "diff",
+        "host-recipes/**/recipe": "shellscript",
+        "host-recipes/**/patches/*": "diff",
+        "recipes/**/recipe": "shellscript",
+        "recipes/**/patches/*": "diff",
         "Jinxfile": "shellscript",
     },
     "files.trimTrailingWhitespace": true,
